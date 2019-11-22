@@ -687,6 +687,8 @@ static struct {
 	 */
 	{ MOUSE_MODEL_SYNAPTICS,	/* Synaptics Touchpad on Active Mux */
 	  0x00, MOUSE_PS2_PACKETSIZE, enable_synaptics_mux },
+	{ MOUSE_MODEL_SYNAPTICS,	/* Synaptics Touchpad */
+	  0xc0, MOUSE_SYNAPTICS_PACKETSIZE, enable_synaptics },
 	{ MOUSE_MODEL_NET,		/* Genius NetMouse */
 	  0x08, MOUSE_PS2INTELLI_PACKETSIZE, enable_gmouse },
 	{ MOUSE_MODEL_NETSCROLL,	/* Genius NetScroll */
@@ -699,8 +701,6 @@ static struct {
 	  0x08, MOUSE_4D_PACKETSIZE, enable_4dmouse },
 	{ MOUSE_MODEL_4DPLUS,		/* A4 Tech 4D+ Mouse */
 	  0xc8, MOUSE_4DPLUS_PACKETSIZE, enable_4dplus },
-	{ MOUSE_MODEL_SYNAPTICS,	/* Synaptics Touchpad */
-	  0xc0, MOUSE_SYNAPTICS_PACKETSIZE, enable_synaptics },
 	{ MOUSE_MODEL_ELANTECH,		/* Elantech Touchpad */
 	  0x04, MOUSE_ELANTECH_PACKETSIZE, enable_elantech },
 	{ MOUSE_MODEL_INTELLI,		/* Microsoft IntelliMouse */
@@ -1950,6 +1950,8 @@ psmattach(device_t dev)
 	struct psm_softc *sc = device_get_softc(dev);
 	int error;
 	int rid;
+
+	printf("psm%d: WMO modifications in place.\n", sc->unit);
 
 	/* Setup initial state */
 	sc->state = PSM_VALID;
@@ -7357,7 +7359,7 @@ psmresume(device_t dev)
 	if ((sc->config &
 	    (PSM_CONFIG_HOOKRESUME | PSM_CONFIG_INITAFTERSUSPEND)) == 0)
 		return (0);
-
+return(0);
 	err = reinitialize(sc, sc->config & PSM_CONFIG_INITAFTERSUSPEND);
 
 	if ((sc->state & PSM_ASLP) && !(sc->state & PSM_VALID)) {

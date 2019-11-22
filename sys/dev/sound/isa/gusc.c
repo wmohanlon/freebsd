@@ -111,6 +111,8 @@ gusc_probe(device_t dev)
 	char *s;
 	struct sndcard_func *func;
 	int ret;
+	printf("WMO: gusc modifications in place; probe blocked to avoid panic\n");
+	return (ENXIO);
 
 	logical_id = isa_get_logicalid(dev);
 	s = NULL;
@@ -184,6 +186,7 @@ gusisa_probe(device_t dev)
 	struct resource *res, *res2;
 	int base, rid, rid2, s, flags;
 	unsigned char val;
+	return ENXIO;
 
 	base = isa_get_port(dev);
 	flags = device_get_flags(dev);
